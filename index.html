@@ -35,6 +35,9 @@
             letter-spacing: -0.5px;
         }
 
+        /* Cor da barra de progresso do Reveal para bater com a identidade visual */
+        .reveal .progress { color: var(--gnh-orange); }
+
         /* Logos Fixas - Protegidas nas bordas */
         .global-logo-top {
             position: absolute;
@@ -109,7 +112,6 @@
             line-height: 1.4;
         }
         
-        /* AQUI FOI ALTERADO O TAMANHO DO ÍCONE DA ASA PARA FICAR MAIOR */
         .asa-icon { width: 32px; margin-right: 15px; margin-top: 2px; flex-shrink: 0; }
         
         .list-text strong { display: block; margin-bottom: 2px; font-size: 1.05em; color: var(--gnh-dark); }
@@ -379,6 +381,7 @@
     Reveal.initialize({
         controls: true,
         progress: true,
+        slideNumber: true, /* LIGADO PARA APARECER A NUMERAÇÃO NA TELA */
         center: true, 
         hash: true,
         transition: 'slide',
