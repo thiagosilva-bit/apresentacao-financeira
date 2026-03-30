@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torre de Controle - Grupo Nelson Heusi</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Paleta de Cores Premium */
+        :root {
+            --gnh-orange: #F47920; 
+            --gnh-dark: #111111;
+            --gnh-text: #444444;
+            --gnh-light: #FAFAFA;
+            --gnh-white: #FFFFFF;
+        }
+
+        .reveal { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--gnh-light); 
+            color: var(--gnh-text); 
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Inter', sans-serif;
+            color: var(--gnh-dark);
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* Logos Fixas - Protegidas nas bordas */
+        .global-logo-top {
+            position: absolute;
+            top: 4vh;
+            right: 4vw;
+            height: 50px; 
+            width: auto;
+            z-index: 999;
+        }
+        
+        .global-logo-bottom {
+            position: absolute;
+            bottom: 3vh;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 35px; 
+            width: auto;
+            z-index: 999;
+            opacity: 0.6;
+        }
+
+        /* Estilos Base Reduzidos para evitar corte de tela */
+        .text-orange { color: var(--gnh-orange) !important; font-weight: 700; }
+        .text-dark { color: var(--gnh-dark) !important; font-weight: 600; }
+
+        .slide-title {
+            font-size: 1.6em !important; 
+            font-weight: 700 !important;
+            text-align: left;
+            margin-bottom: 10px !important; 
+        }
+
+        .frase-forca {
+            font-size: 0.85em; 
+            line-height: 1.4;
+            font-style: italic;
+            border-left: 4px solid var(--gnh-orange);
+            padding-left: 15px;
+            margin-bottom: 20px; 
+            color: var(--gnh-text);
+            text-align: left;
+            font-weight: 300;
+        }
+
+        /* Cards Compactos */
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px; 
+        }
+        .pillar-card {
+            background: var(--gnh-white);
+            padding: 15px 20px; 
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.04);
+            border-top: 4px solid var(--gnh-orange);
+            text-align: left;
+        }
+        .pillar-card i { color: var(--gnh-orange); font-size: 1.6em; margin-bottom: 8px; }
+        .pillar-card h4 { font-size: 1em; margin-bottom: 5px; font-weight: 600; }
+        .pillar-card p { margin: 0; font-size: 0.75em; line-height: 1.4; }
+
+        /* Listas Clean e Compactas */
+        .premium-list { list-style: none; padding: 0; margin-top: 10px; }
+        .premium-list li {
+            margin-bottom: 15px; 
+            font-size: 0.8em; 
+            display: flex;
+            align-items: flex-start;
+            text-align: left;
+            line-height: 1.4;
+        }
+        .asa-icon { width: 18px; margin-right: 12px; margin-top: 3px; flex-shrink: 0; }
+        .list-text strong { display: block; margin-bottom: 2px; font-size: 1.05em; color: var(--gnh-dark); }
+
+        /* Botões */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--gnh-white);
+            color: var(--gnh-dark) !important;
+            border: 1px solid #CCC;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.55em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { border-color: var(--gnh-dark); transform: translateY(-2px); }
+        .btn-orange { 
+            background-color: var(--gnh-orange); 
+            color: var(--gnh-white) !important; 
+            border: none; 
+        }
+        .btn-orange:hover { background-color: #e06815; color: var(--gnh-white) !important; }
+
+        /* Box de Destaque */
+        .highlight-box {
+            background: var(--gnh-white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.04);
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    
+    <img src="logo rodapé 1.png" class="global-logo-top" alt="GNH Logo">
+    <img src="logo rodapé 2.png" class="global-logo-bottom" alt="Logistics">
+
+    <div class="slides">
+
+        <section>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <img src="logo rodapé 1.png" style="width: 200px; margin-bottom: 30px;" alt="GNH Logo">
+                <h1 style="font-size: 2.2em; text-transform: uppercase; text-align: center; line-height: 1.2;">
+                    <strong class="text-orange">Dashboard Financeiro</strong><br>
+                    <span style="font-weight: 300;">Despacho</span>
+                </h1>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="slide-title">O PROPÓSITO</h2>
+            <div class="frase-forca">
+                Consolidação de dados com integridade e controle para entregar a visão em tempo real da carteira de clientes, protegendo o fluxo de caixa e automatizando a gestão de recebíveis.
+            </div>
+            
+            <div class="grid-2x2">
+                <div class="pillar-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h4>Governança e Transparência</h4>
+                    <p>Visão centralizada e em tempo real de toda a exposição da carteira de recebíveis em uma única tela.</p>
+                </div>
+                <div class="pillar-card">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <h4>Gestão de Risco Inteligente</h4>
+                    <p>Priorização automática das cobranças cruzando o volume financeiro e os dias de atraso.</p>
+                </div>
+                <div class="pillar-card">
+                    <i class="fa-solid fa-gears"></i>
+                    <h4>Automação Operacional</h4>
+                    <p>Esteira de cobrança ponta a ponta que gera extratos e rascunhos de e-mail de forma sistêmica.</p>
+                </div>
+                <div class="pillar-card">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <h4>Ganho de Produtividade</h4>
+                    <p>Eliminação de rotinas manuais (planilhas), liberando a equipe para negociação estratégica.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="slide-title">O Cenário Anterior</h2>
+            <p style="text-align: left; font-size: 0.85em; color: var(--gnh-text); margin-bottom: 20px;">Desafios Operacionais e Estratégicos que motivaram a mudança.</p>
+            
+            <ul class="premium-list">
+                <li>
+                    <img src="Imagem2.png" class="asa-icon">
+                    <div class="list-text"><strong>Descentralização de Dados</strong> Informações financeiras fragmentadas, exigindo horas de cruzamentos manuais no Excel.</div>
+                </li>
+                <li>
+                    <img src="Imagem2.png" class="asa-icon">
+                    <div class="list-text"><strong>Visão Reativa do Caixa</strong> Ausência de monitoramento centralizado e em tempo real do Índice de Atraso Geral (IAG).</div>
+                </li>
+                <li>
+                    <img src="Imagem2.png" class="asa-icon">
+                    <div class="list-text"><strong>Gargalo na Cobrança</strong> Esforço manual extremo da equipe para agrupar CNPJs, formatar extratos e redigir e-mails.</div>
+                </li>
+                <li>
+                    <img src="Imagem2.png" class="asa-icon">
+                    <div class="list-text"><strong>Risco Oculto</strong> Dificuldade em priorizar as ações de cobrança baseadas no real impacto financeiro para o Grupo.</div>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="slide-title" style="text-align: center;">A Arquitetura da Solução</h2>
+            <p style="text-align: center; font-size: 0.85em; margin-bottom: 30px;">Como a inteligência se conecta à operação.</p>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="text-align: center; width: 22%;">
+                    <i class="fa-solid fa-robot text-dark" style="font-size: 2.8em; margin-bottom: 15px;"></i>
+                    <h4 style="color: var(--gnh-orange); font-size: 0.9em; font-weight: 700;">1. Extração</h4>
+                    <p style="font-size: 0.7em;">Robô na nuvem captura dados 24/7.</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-orange" style="font-size: 1.2em; opacity: 0.5;"></i>
+                
+                <div style="text-align: center; width: 22%;">
+                    <i class="fa-solid fa-filter text-dark" style="font-size: 2.8em; margin-bottom: 15px;"></i>
+                    <h4 style="color: var(--gnh-orange); font-size: 0.9em; font-weight: 700;">2. Compliance</h4>
+                    <p style="font-size: 0.7em;">Saneamento e consolidação por CNPJ.</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-orange" style="font-size: 1.2em; opacity: 0.5;"></i>
+
+                <div style="text-align: center; width: 22%;">
+                    <i class="fa-solid fa-chart-pie text-dark" style="font-size: 2.8em; margin-bottom: 15px;"></i>
+                    <h4 style="color: var(--gnh-orange); font-size: 0.9em; font-weight: 700;">3. Visão</h4>
+                    <p style="font-size: 0.7em;">Painel reflete a saúde da carteira.</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-orange" style="font-size: 1.2em; opacity: 0.5;"></i>
+
+                <div style="text-align: center; width: 22%;">
+                    <i class="fa-solid fa-bolt text-dark" style="font-size: 2.8em; margin-bottom: 15px;"></i>
+                    <h4 style="color: var(--gnh-orange); font-size: 0.9em; font-weight: 700;">4. Ação (RPA)</h4>
+                    <p style="font-size: 0.7em;">Automação da régua de cobrança.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="slide-title">Visão Executiva</h2>
+            <p style="text-align: left; font-size: 0.85em; color: var(--gnh-text); margin-bottom: 20px;">Transparência absoluta e priorização de risco financeiro.</p>
+            
+            <div style="display: flex; align-items: stretch; gap: 30px;">
+                <div style="width: 65%;">
+                    <ul class="premium-list">
+                        <li><img src="Imagem2.png" class="asa-icon"> <div class="list-text"><strong>Monitoramento Macro</strong> Controle imediato da Exposição Total e do IAG (Índice de Atraso Geral).</div></li>
+                        <li><img src="Imagem2.png" class="asa-icon"> <div class="list-text"><strong>Previsibilidade (Aging)</strong> Visão clara do fluxo futuro e segmentação do passivo crítico.</div></li>
+                        <li><img src="Imagem2.png" class="asa-icon"> <div class="list-text"><strong>Matriz de Risco</strong> Algoritmo que cruza Valor vs. Tempo de Atraso.</div></li>
+                    </ul>
+                    <a href="https://lookerstudio.google.com/reporting/dc569960-421e-4f87-88e2-64d2dff08f44" target="_blank" class="btn btn-orange">Acessar Dashboard</a>
+                </div>
+                <div style="width: 35%;">
+                    <div class="highlight-box">
+                        <i class="fa-brands fa-google text-dark" style="font-size: 3em; margin-bottom: 10px;"></i>
+                        <h4 style="font-size: 1.1em; font-weight: 700;">Looker Studio</h4>
+                        <p style="font-size: 0.75em; margin-top: 5px;">Ambiente C-Level</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="slide-title">A Máquina em Ação</h2>
+            <p style="text-align: left; font-size: 0.85em; color: var(--gnh-text); margin-bottom: 20px;">Automação Operacional (RPA) escalável.</p>
+            
+            <div style="display: flex; align-items: stretch; gap: 30px;">
+                <div style="width: 65%;">
+                    <ul class="premium-list">
+                        <li><img src="Imagem2.png" class="asa-icon"> <div class="list-text"><strong>Consolidação Inteligente</strong> O sistema varre a base, segrega dados e categoriza.</div></li>
+                        <li><img src="Imagem2.png" class="asa-icon"> <div class="list-text"><strong>Geração de Anexos</strong> Criação instantânea de relatórios Excel formatados.</div></li>
+                        <li><img src="Imagem2.png" class="asa-icon"> <div class="list-text"><strong>Comunicação Sistêmica</strong> Geração automática do rascunho de e-mail de cobrança.</div></li>
+                    </ul>
+                    <a href="https://docs.google.com/spreadsheets/d/14QRexGRxaobdwjcna7PxjlXfQbDA1MChl_M2WnREuW0/edit?gid=20985744#gid=20985744" target="_blank" class="btn">Acessar Motor Base</a>
+                </div>
+                <div style="width: 35%;">
+                    <div class="highlight-box" style="border-top: 4px solid var(--gnh-orange);">
+                        <i class="fa-solid fa-envelope-open-text text-dark" style="font-size: 3em; margin-bottom: 10px;"></i>
+                        <h4 style="font-size: 1.1em; font-weight: 700;">RPA Financeiro</h4>
+                        <p style="font-size: 0.75em; margin-top: 5px;">De horas para segundos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="slide-title">Governança e Rastreabilidade</h2>
+            <p style="text-align: left; font-size: 0.85em; margin-bottom: 20px;">Controle absoluto, compliance e auditoria contínua.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="pillar-card" style="border-top: none; border-left: 4px solid var(--gnh-dark); display: flex; align-items: center; padding: 15px;">
+                    <i class="fa-solid fa-database text-orange" style="font-size: 1.8em; margin-right: 15px; margin-bottom: 0;"></i>
+                    <div>
+                        <h4 style="font-size: 0.95em; margin-bottom: 2px;">Registro Sistêmico</h4>
+                        <p style="font-size: 0.75em;">Toda geração de cobrança é registrada automaticamente no banco de dados.</p>
+                    </div>
+                </div>
+                <div class="pillar-card" style="border-top: none; border-left: 4px solid var(--gnh-dark); display: flex; align-items: center; padding: 15px;">
+                    <i class="fa-solid fa-magnifying-glass-chart text-orange" style="font-size: 1.8em; margin-right: 15px; margin-bottom: 0;"></i>
+                    <div>
+                        <h4 style="font-size: 0.95em; margin-bottom: 2px;">Trilha de Auditoria</h4>
+                        <p style="font-size: 0.75em;">Rastreabilidade completa: Data, Hora, Usuário e Valores exatos no momento da ação.</p>
+                    </div>
+                </div>
+                <div class="pillar-card" style="border-top: none; border-left: 4px solid var(--gnh-dark); display: flex; align-items: center; padding: 15px;">
+                    <i class="fa-solid fa-lock text-orange" style="font-size: 1.8em; margin-right: 15px; margin-bottom: 0;"></i>
+                    <div>
+                        <h4 style="font-size: 0.95em; margin-bottom: 2px;">Segurança da Informação</h4>
+                        <p style="font-size: 0.75em;">Mitigação do risco de falhas humanas (digitação errada ou envio de CNPJs trocados).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="slide-title" style="text-align: center;">Resultados e Próximos Passos</h2>
+            
+            <div style="display: flex; gap: 20px; margin-top: 20px;">
+                <div style="width: 50%;" class="highlight-box">
+                    <h3 style="font-size: 1em; border-bottom: 2px solid var(--gnh-orange); padding-bottom: 8px; margin-bottom: 12px; font-weight: 700; text-align: left;">
+                        <i class="fa-solid fa-trophy text-orange" style="margin-right: 8px;"></i> Impacto Atual
+                    </h3>
+                    <ul class="premium-list" style="margin-top: 0;">
+                        <li><img src="Imagem2.png" class="asa-icon" style="width: 14px;"> <div class="list-text">Equipe focada em negociação.</div></li>
+                        <li><img src="Imagem2.png" class="asa-icon" style="width: 14px;"> <div class="list-text">Padronização da régua de cobrança.</div></li>
+                        <li><img src="Imagem2.png" class="asa-icon" style="width: 14px;"> <div class="list-text">Aceleração no tempo de resposta.</div></li>
+                    </ul>
+                </div>
+
+                <div style="width: 50%; background: var(--gnh-dark); color: var(--gnh-white);" class="highlight-box">
+                    <h3 style="font-size: 1em; border-bottom: 2px solid var(--gnh-orange); padding-bottom: 8px; margin-bottom: 12px; font-weight: 700; text-align: left; color: white;">
+                        <i class="fa-solid fa-rocket text-orange" style="margin-right: 8px;"></i> O Futuro
+                    </h3>
+                    <ul class="premium-list" style="margin-top: 0; color: #DDD;">
+                        <li><img src="Imagem2.png" class="asa-icon" style="width: 14px;"> <div class="list-text"><strong style="color: white;">Inteligência Preditiva</strong> Prever atrasos.</div></li>
+                        <li><img src="Imagem2.png" class="asa-icon" style="width: 14px;"> <div class="list-text"><strong style="color: white;">Cobrança Autônoma</strong> Disparos automáticos.</div></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <img src="logo rodapé 1.png" style="width: 180px; margin-bottom: 30px;" alt="GNH Logo">
+                
+                <h2 style="font-size: 1em; font-weight: 700; color: var(--gnh-dark); margin-bottom: 2px; text-align: center;">Thiago Henrique Bento</h2>
+                <h3 style="font-size: 0.8em; font-weight: 300; color: var(--gnh-orange); text-align: center;">Financial Compliance</h3>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true, 
+        hash: true,
+        transition: 'slide',
+        width: 1920, 
+        height: 1080,
+        margin: 0.15, 
+        disableLayout: false
+    });
+</script>
+
+</body>
+</html>
