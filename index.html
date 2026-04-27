@@ -27,7 +27,13 @@
             --shadow-orange: 0 0 30px rgba(244, 121, 32, 0.15);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* ATIVANDO O SCROLL SNAPPING (EFEITO ÍMÃ) */
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -74,8 +80,16 @@
         .logo-fixa-top { position: fixed; top: 25px; right: 40px; height: 50px; z-index: 1000; }
         .logo-fixa-bottom { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); height: 35px; z-index: 1000; opacity: 0.3; }
 
-        /* SEÇÕES E TIPOGRAFIA */
-        section { min-height: 100vh; padding: 120px 20px; display: flex; align-items: center; }
+        /* SEÇÕES E TIPOGRAFIA (COM SCROLL SNAP) */
+        section { 
+            min-height: 100vh; 
+            padding: 120px 20px; 
+            display: flex; 
+            align-items: center; 
+            /* REGRAS DO ÍMÃ AQUI */
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
 
         .slide-title {
             font-family: 'Plus Jakarta Sans', sans-serif; font-size: 3.2rem; font-weight: 800; 
