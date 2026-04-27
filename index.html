@@ -78,7 +78,9 @@
         .nav-link.active { background: var(--gnh-orange); color: #000; box-shadow: 0 0 15px var(--gnh-orange-glow); }
 
         .logo-fixa-top { position: fixed; top: 25px; right: 40px; height: 50px; z-index: 1000; }
-        .logo-fixa-bottom { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); height: 35px; z-index: 1000; opacity: 0.3; }
+        
+        /* AQUI ESTAVA O PROBLEMA: opacity estava em 0.3, agora está 1 */
+        .logo-fixa-bottom { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); height: 35px; z-index: 1000; opacity: 1; }
 
         /* SEÇÕES E TIPOGRAFIA (COM SCROLL SNAP) */
         section { 
