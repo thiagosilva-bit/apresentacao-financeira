@@ -12,19 +12,18 @@
 
     <style>
         /* ====================================================
-           TEMA "PREMIUM DARK" - HIGH-TECH
+           TEMA "PREMIUM DARK" - HIGH-TECH 2.0
            ==================================================== */
         :root {
             --gnh-orange: #F47920; 
             --gnh-orange-glow: rgba(244, 121, 32, 0.4);
             --bg-main: #060608; 
-            --bg-card: rgba(15, 15, 18, 0.65); 
+            --bg-card: rgba(15, 15, 18, 0.7); 
             --text-main: #FFFFFF; 
             --text-dim: #9BA3AF; 
             --border-light: rgba(255, 255, 255, 0.06);
             --border-highlight: rgba(255, 255, 255, 0.15);
-            --shadow-glow: 0 10px 40px rgba(0, 0, 0, 0.6);
-            --shadow-orange: 0 0 30px rgba(244, 121, 32, 0.15);
+            --shadow-glow: 0 10px 40px rgba(0, 0, 0, 0.7);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
@@ -37,24 +36,12 @@
             line-height: 1.6;
         }
 
-        /* LUZES DE FUNDO (BLOOM) */
-        body::before {
-            content: ''; position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(244, 121, 32, 0.15) 0%, transparent 60%);
-            z-index: -1; pointer-events: none;
-        }
-        body::after {
-            content: ''; position: fixed; bottom: -20%; right: -10%; width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
-            z-index: -1; pointer-events: none;
-        }
-
         .container { width: 100%; max-width: 1200px; margin: 0 auto; position: relative; }
 
-        /* FILTRO PARA LOGOS CLARAS */
+        /* FILTRO PARA LOGOS CLARAS (Inverte Preto para Branco e mantém Laranja) */
         .logo-adaptada { filter: invert(1) hue-rotate(180deg) brightness(1.5) contrast(1.2); }
 
-        /* NAVEGAÇÃO E LOGOS FIXAS */
+        /* NAVEGAÇÃO FIXA */
         .top-nav {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; 
             display: flex; gap: 5px; background: rgba(10, 10, 12, 0.85); padding: 8px; border-radius: 50px;
@@ -64,17 +51,15 @@
 
         .nav-link {
             text-decoration: none; color: var(--text-dim); font-size: 11px; font-weight: 600; 
-            text-transform: uppercase; padding: 10px 18px; border-radius: 40px; transition: all 0.3s ease;
-            letter-spacing: 1px;
+            text-transform: uppercase; padding: 10px 18px; border-radius: 40px; transition: 0.3s;
         }
 
         .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
         .nav-link.active { background: var(--gnh-orange); color: #000; box-shadow: 0 0 15px var(--gnh-orange-glow); }
 
         .logo-fixa-top { position: fixed; top: 25px; right: 40px; height: 50px; z-index: 1000; }
-        .logo-fixa-bottom { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); height: 35px; z-index: 1000; opacity: 0.3; }
 
-        /* SEÇÕES E TIPOGRAFIA */
+        /* SEÇÕES */
         section { min-height: 100vh; padding: 120px 20px; display: flex; align-items: center; }
 
         .slide-title {
@@ -90,107 +75,104 @@
             border-radius: 0 15px 15px 0; font-weight: 300; font-style: italic;
         }
 
-        /* CARDS MODERNIZADOS */
+        /* CARDS */
         .grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
 
         .pillar-card {
             background: var(--bg-card); border: 1px solid var(--border-light); padding: 40px; 
-            border-radius: 20px; box-shadow: var(--shadow-glow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(12px); position: relative; overflow: hidden;
-        }
-        
-        /* Detalhe luminoso no topo do card */
-        .pillar-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gnh-orange), transparent);
-            opacity: 0.5; transition: 0.4s;
+            border-radius: 24px; box-shadow: var(--shadow-glow); transition: 0.4s;
+            backdrop-filter: blur(12px); border-top: 4px solid var(--gnh-orange);
         }
 
-        .pillar-card:hover { transform: translateY(-5px); border-color: var(--border-highlight); box-shadow: var(--shadow-orange); }
-        .pillar-card:hover::before { opacity: 1; box-shadow: 0 0 15px var(--gnh-orange); }
-        
-        .pillar-card i { font-size: 2.2rem; color: var(--gnh-orange); margin-bottom: 20px; transition: 0.3s;}
-        .pillar-card:hover i { transform: scale(1.1); text-shadow: 0 0 15px var(--gnh-orange-glow); }
-        .pillar-card h4 { font-size: 1.3rem; color: var(--text-main); margin-bottom: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;}
-        
-        /* LISTAS PREMIUM */
-        .premium-list { list-style: none; }
-        .premium-list li {
-            display: flex; align-items: flex-start; gap: 20px; margin-bottom: 20px; 
-            background: rgba(255,255,255,0.02); padding: 25px; border-radius: 15px; 
-            border: 1px solid var(--border-light); transition: 0.3s;
-        }
-        .premium-list li:hover { background: rgba(255,255,255,0.04); border-color: var(--border-highlight); }
+        .pillar-card:hover { transform: translateY(-5px); border-color: var(--border-highlight); }
+        .pillar-card i { font-size: 2.2rem; color: var(--gnh-orange); margin-bottom: 20px; }
 
-        .asa-icon { width: 35px; object-fit: contain; opacity: 0.8; transition: 0.3s; }
-        .premium-list li:hover .asa-icon { opacity: 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.3)); }
-        .list-text strong { display: block; color: var(--text-main); font-size: 1.1rem; margin-bottom: 5px; font-weight: 700;}
-
-        /* HIGHLIGHT BOXES (DESTAQUES) */
-        .highlight-box {
-            background: linear-gradient(145deg, rgba(20,20,25,0.8) 0%, rgba(10,10,12,0.8) 100%);
-            border: 1px solid var(--border-light); padding: 40px; border-radius: 20px; text-align: center;
-            box-shadow: var(--shadow-glow); height: 100%; display: flex; flex-direction: column; justify-content: center;
-            backdrop-filter: blur(12px); position: relative; overflow: hidden;
-        }
-
-        /* ====================================================
-           NOVA TIMELINE DE ARQUITETURA (CONECTADA)
-           ==================================================== */
+        /* ARQUITETURA (CONECTADA) */
         .modern-timeline {
-            display: flex; justify-content: space-between; position: relative;
-            padding: 40px 0; margin-top: 60px;
+            display: flex; justify-content: space-between; position: relative; padding: 40px 0; margin-top: 60px;
         }
 
-        /* A linha conectora de energia */
         .timeline-line {
             position: absolute; top: 40px; left: 10%; right: 10%; height: 2px;
             background: linear-gradient(90deg, rgba(244,121,32,0.1) 0%, var(--gnh-orange) 50%, rgba(244,121,32,0.1) 100%);
             z-index: 1; opacity: 0.4;
-            box-shadow: 0 0 15px var(--gnh-orange-glow);
         }
 
         .timeline-step { width: 22%; text-align: center; position: relative; z-index: 2; }
         
-        /* O "Nó" da rede */
         .step-icon-wrapper {
-            width: 80px; height: 80px; margin: 0 auto 25px;
-            background: var(--bg-main); /* Esconde a linha por trás */
-            border: 2px solid var(--border-light);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; color: var(--text-main);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            transition: all 0.4s ease;
+            width: 80px; height: 80px; margin: 0 auto 25px; background: var(--bg-main); 
+            border: 2px solid var(--border-light); border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; font-size: 1.8rem; color: var(--text-main);
+            transition: 0.4s; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
-        .timeline-step:hover .step-icon-wrapper {
-            border-color: var(--gnh-orange); color: var(--gnh-orange);
-            box-shadow: 0 0 30px var(--gnh-orange-glow), inset 0 0 15px rgba(244,121,32,0.2);
-            transform: scale(1.1);
+        .timeline-step:hover .step-icon-wrapper { border-color: var(--gnh-orange); color: var(--gnh-orange); transform: scale(1.1); }
+
+        /* LISTAS */
+        .premium-list { list-style: none; }
+        .premium-list li {
+            display: flex; align-items: flex-start; gap: 20px; margin-bottom: 20px; 
+            background: rgba(255,255,255,0.02); padding: 25px; border-radius: 15px; 
+            border: 1px solid var(--border-light);
         }
 
-        .timeline-step h4 { color: var(--gnh-orange); margin-bottom: 15px; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.5px;}
-        .timeline-step p { font-size: 0.9rem; color: var(--text-dim); }
+        .asa-icon { width: 35px; }
+        .list-text strong { display: block; color: var(--text-main); font-size: 1.1rem; margin-bottom: 5px; font-weight: 700;}
 
         /* BOTÕES */
         .btn {
             display: inline-block; padding: 16px 32px; border-radius: 8px; text-transform: uppercase; 
-            font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; text-decoration: none; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin-top: 20px;
+            font-weight: 800; font-size: 0.8rem; text-decoration: none; transition: 0.3s; margin-top: 20px;
+        }
+        .btn-orange { background: var(--gnh-orange); color: #000 !important; }
+        .btn-outline { border: 1px solid var(--border-highlight); color: var(--text-main) !important; }
+
+        /* ====================================================
+           SEÇÃO DO AUTOR (ESTILO PREMIUM CARD)
+           ==================================================== */
+        .author-card {
+            background: linear-gradient(135deg, rgba(20,20,25,0.9) 0%, rgba(10,10,12,1) 100%);
+            border: 1px solid var(--border-highlight);
+            padding: 60px;
+            border-radius: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(244, 121, 32, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-orange { background: var(--gnh-orange); color: #000 !important; box-shadow: 0 0 20px rgba(244, 121, 32, 0.3); border: none; }
-        .btn-orange:hover { transform: translateY(-3px); background: #ff8c36; box-shadow: 0 10px 30px rgba(244, 121, 32, 0.6); }
+        /* Brilho laranja sutil no fundo do card do autor */
+        .author-card::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(244, 121, 32, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
 
-        .btn-outline { border: 1px solid var(--border-highlight); color: var(--text-main) !important; background: transparent; }
-        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: var(--text-main); transform: translateY(-3px);}
+        .author-name {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .author-role {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gnh-orange);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+        }
 
         @media (max-width: 1024px) {
-            .grid-2x2 { grid-template-columns: 1fr; }
-            .modern-timeline { flex-direction: column; gap: 40px; }
-            .timeline-line { display: none; /* Esconde a linha no mobile */ }
+            .grid-2x2, .modern-timeline { flex-direction: column; display: flex; gap: 30px;}
+            .timeline-line { display: none; }
             .timeline-step { width: 100%; }
-            .slide-title { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -205,15 +187,15 @@
     <a href="#rpa" class="nav-link">RPA</a>
     <a href="#governanca" class="nav-link">Governança</a>
     <a href="#resultados" class="nav-link">Resultados</a>
+    <a href="#autor" class="nav-link">Autor</a>
 </nav>
 
 <img src="logo rodapé 1.png" class="logo-fixa-top logo-adaptada" alt="GNH Logo">
-<img src="logo rodapé 2.png" class="logo-fixa-bottom logo-adaptada" alt="Logistics">
 
 <section id="inicio">
     <div class="container" data-aos="zoom-in" data-aos-duration="1200" style="text-align: center;">
         <img src="logo rodapé 1.png" class="logo-adaptada" style="width: 450px; margin-bottom: 40px;" alt="GNH Logo">
-        <h1 class="slide-title" style="text-transform: uppercase;">
+        <h1 class="slide-title">
             <strong class="text-orange">Dashboard Financeiro</strong><br>
             <span style="font-weight: 300; font-size: 0.6em; color: var(--text-main); letter-spacing: 5px;">Despacho</span>
         </h1>
@@ -223,31 +205,14 @@
 <section id="proposito">
     <div class="container">
         <h2 class="slide-title" data-aos="fade-right">O PROPÓSITO</h2>
-        <div class="frase-forca" data-aos="fade-right" data-aos-delay="100">
+        <div class="frase-forca" data-aos="fade-right">
             Consolidação de dados com integridade e controle para entregar a visão em tempo real da carteira de clientes, protegendo o fluxo de caixa e automatizando a gestão de recebíveis.
         </div>
-        
         <div class="grid-2x2">
-            <div class="pillar-card" data-aos="fade-up" data-aos-delay="200">
-                <i class="fa-solid fa-shield-halved"></i>
-                <h4>Governança e Transparência</h4>
-                <p>Visão centralizada e em tempo real de toda a exposição da carteira de recebíveis em uma única tela.</p>
-            </div>
-            <div class="pillar-card" data-aos="fade-up" data-aos-delay="300">
-                <i class="fa-solid fa-bullseye"></i>
-                <h4>Gestão de Risco Inteligente</h4>
-                <p>Priorização automática das cobranças cruzando o volume financeiro e os dias de atraso.</p>
-            </div>
-            <div class="pillar-card" data-aos="fade-up" data-aos-delay="400">
-                <i class="fa-solid fa-gears"></i>
-                <h4>Automação Operacional</h4>
-                <p>Esteira de cobrança ponta a ponta que gera extratos e rascunhos de e-mail de forma sistêmica.</p>
-            </div>
-            <div class="pillar-card" data-aos="fade-up" data-aos-delay="500">
-                <i class="fa-solid fa-arrow-trend-up"></i>
-                <h4>Ganho de Produtividade</h4>
-                <p>Eliminação de rotinas manuais (planilhas), liberando a equipe para negociação estratégica.</p>
-            </div>
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="100"><i class="fa-solid fa-shield-halved"></i><h4>Governança</h4><p>Visão centralizada e em tempo real de toda a exposição da carteira.</p></div>
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="200"><i class="fa-solid fa-bullseye"></i><h4>Gestão de Risco</h4><p>Priorização automática das cobranças cruzando volume e atraso.</p></div>
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="300"><i class="fa-solid fa-gears"></i><h4>Automação</h4><p>Esteira operacional que gera extratos e e-mails de forma sistêmica.</p></div>
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="400"><i class="fa-solid fa-arrow-trend-up"></i><h4>Produtividade</h4><p>Eliminação de planilhas manuais para foco em negociação estratégica.</p></div>
         </div>
     </div>
 </section>
@@ -255,60 +220,23 @@
 <section id="cenario">
     <div class="container">
         <h2 class="slide-title" data-aos="fade-left">O Cenário Anterior</h2>
-        <p style="margin-bottom: 40px; font-size: 1.1rem;" data-aos="fade-left" data-aos-delay="100">Desafios operacionais que motivaram a transformação digital.</p>
-        
         <ul class="premium-list">
-            <li data-aos="fade-left" data-aos-delay="200">
-                <img src="Imagem2.png" class="asa-icon logo-adaptada">
-                <div class="list-text"><strong>Descentralização de Dados</strong> Informações fragmentadas exigindo horas de cruzamentos manuais e suscetíveis a erros humanos.</div>
-            </li>
-            <li data-aos="fade-left" data-aos-delay="300">
-                <img src="Imagem2.png" class="asa-icon logo-adaptada">
-                <div class="list-text"><strong>Visão Reativa do Caixa</strong> Ausência de monitoramento em tempo real do Índice de Atraso Geral (IAG).</div>
-            </li>
-            <li data-aos="fade-left" data-aos-delay="400">
-                <img src="Imagem2.png" class="asa-icon logo-adaptada">
-                <div class="list-text"><strong>Gargalo na Cobrança</strong> Esforço manual extremo para agrupar faturas, formatar extratos e redigir e-mails individualmente.</div>
-            </li>
-            <li data-aos="fade-left" data-aos-delay="500">
-                <img src="Imagem2.png" class="asa-icon logo-adaptada">
-                <div class="list-text"><strong>Risco Oculto</strong> Dificuldade em priorizar ações baseadas no real impacto financeiro para o Grupo.</div>
-            </li>
+            <li data-aos="fade-left" data-aos-delay="100"><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Descentralização de Dados</strong> Horas de cruzamentos manuais suscetíveis a erros humanos.</div></li>
+            <li data-aos="fade-left" data-aos-delay="200"><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Visão Reativa</strong> Ausência de monitoramento em tempo real do IAG.</div></li>
+            <li data-aos="fade-left" data-aos-delay="300"><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Gargalo Operacional</strong> Esforço extremo para agrupar faturas e redigir e-mails.</div></li>
         </ul>
     </div>
 </section>
 
 <section id="arquitetura">
     <div class="container" style="text-align: center;">
-        <h2 class="slide-title" data-aos="zoom-in">A Arquitetura da Solução</h2>
-        <p style="font-size: 1.1rem; color: var(--text-dim);" data-aos="zoom-in" data-aos-delay="100">De dados brutos à execução autônoma: um ecossistema integrado.</p>
-        
-        <div class="modern-timeline" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="slide-title" data-aos="zoom-in">Arquitetura da Solução</h2>
+        <div class="modern-timeline" data-aos="fade-up">
             <div class="timeline-line"></div>
-            
-            <div class="timeline-step">
-                <div class="step-icon-wrapper"><i class="fa-solid fa-robot"></i></div>
-                <h4>1. Extração</h4>
-                <p>Robôs operam 24/7 na nuvem, capturando dados de fontes sistêmicas sem intervenção humana.</p>
-            </div>
-            
-            <div class="timeline-step">
-                <div class="step-icon-wrapper"><i class="fa-solid fa-filter"></i></div>
-                <h4>2. Compliance</h4>
-                <p>Higienização e validação. O motor de regras consolida recebíveis por raiz de CNPJ com integridade total.</p>
-            </div>
-            
-            <div class="timeline-step">
-                <div class="step-icon-wrapper"><i class="fa-solid fa-chart-pie"></i></div>
-                <h4>3. Visão</h4>
-                <p>Dashboards dinâmicos traduzem dados em insights proativos sobre a saúde da carteira.</p>
-            </div>
-            
-            <div class="timeline-step">
-                <div class="step-icon-wrapper"><i class="fa-solid fa-bolt"></i></div>
-                <h4>4. Ação (RPA)</h4>
-                <p>Execução autônoma da régua de cobrança, gerando extratos e e-mails padronizados em massa.</p>
-            </div>
+            <div class="timeline-step"><div class="step-icon-wrapper"><i class="fa-solid fa-robot"></i></div><h4>1. Extração</h4><p>Robôs operam 24/7 na nuvem capturando dados sistêmicos.</p></div>
+            <div class="timeline-step"><div class="step-icon-wrapper"><i class="fa-solid fa-filter"></i></div><h4>2. Compliance</h4><p>Validação por raiz de CNPJ com integridade total.</p></div>
+            <div class="timeline-step"><div class="step-icon-wrapper"><i class="fa-solid fa-chart-pie"></i></div><h4>3. Visão</h4><p>Dashboards dinâmicos traduzem dados em insights proativos.</p></div>
+            <div class="timeline-step"><div class="step-icon-wrapper"><i class="fa-solid fa-bolt"></i></div><h4>4. Ação (RPA)</h4><p>Execução autônoma da régua de cobrança em massa.</p></div>
         </div>
     </div>
 </section>
@@ -316,23 +244,16 @@
 <section id="visao">
     <div class="container">
         <h2 class="slide-title" data-aos="fade-right">Visão Executiva</h2>
-        <p style="margin-bottom: 40px; font-size: 1.1rem;" data-aos="fade-right">Governança proativa e tomada de decisão baseada em dados em tempo real.</p>
-        
-        <div style="display: flex; gap: 40px; align-items: stretch; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 300px;" data-aos="fade-right" data-aos-delay="100">
+        <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
                 <ul class="premium-list">
-                    <li><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Monitoramento Macro</strong> Controle absoluto e imediato da Exposição Total e acompanhamento cirúrgico do Índice de Atraso Geral (IAG).</div></li>
-                    <li><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Previsibilidade (Aging)</strong> Visão clara do fluxo de caixa futuro e segmentação do passivo para ações preventivas.</div></li>
-                    <li><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Matriz de Risco</strong> Algoritmo inteligente que cruza Volume Financeiro vs. Tempo de Atraso, otimizando o foco da equipe.</div></li>
+                    <li data-aos="fade-right"><strong>Monitoramento Macro</strong> Controle imediato da Exposição Total.</li>
+                    <li data-aos="fade-right" data-aos-delay="100"><strong>Previsibilidade</strong> Visão clara do fluxo de caixa e Aging.</li>
                 </ul>
                 <a href="https://lookerstudio.google.com/reporting/dc569960-421e-4f87-88e2-64d2dff08f44" target="_blank" class="btn btn-orange">Acessar Dashboard</a>
             </div>
-            <div style="width: 350px; flex-shrink: 0;" data-aos="flip-left" data-aos-delay="300">
-                <div class="highlight-box">
-                    <i class="fa-brands fa-google" style="font-size: 4rem; margin-bottom: 20px; color: var(--text-main);"></i>
-                    <h4 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">Looker Studio</h4>
-                    <p>Ambiente C-Level</p>
-                </div>
+            <div style="width: 350px;" data-aos="flip-left">
+                <div class="pillar-card" style="text-align: center;"><i class="fa-brands fa-google" style="font-size: 4rem;"></i><h4>Looker Studio</h4><p>Ambiente C-Level</p></div>
             </div>
         </div>
     </div>
@@ -341,24 +262,16 @@
 <section id="rpa">
     <div class="container">
         <h2 class="slide-title" data-aos="fade-left">A Máquina em Ação</h2>
-        <p style="margin-bottom: 40px; font-size: 1.1rem;" data-aos="fade-left">Automação Operacional (RPA) escalável e livre de erros.</p>
-        
-        <div style="display: flex; gap: 40px; align-items: stretch; flex-wrap: wrap; flex-direction: row-reverse;">
-            <div style="flex: 1; min-width: 300px;" data-aos="fade-left" data-aos-delay="100">
+        <div style="display: flex; gap: 40px; align-items: center; flex-direction: row-reverse; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
                 <ul class="premium-list">
-                    <li><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Consolidação Inteligente</strong> Agrupamento automático de faturas dispersas e categorização por perfil de cliente.</div></li>
-                    <li><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Geração de Anexos</strong> Criação instantânea de composições de saldo em Excel 100% formatadas e auditáveis.</div></li>
-                    <li><img src="Imagem2.png" class="asa-icon logo-adaptada"><div class="list-text"><strong>Comunicação Sistêmica</strong> Redação automática de e-mails institucionais com anexos já inseridos para conferência rápida.</div></li>
+                    <li data-aos="fade-left"><strong>Consolidação</strong> Agrupamento automático de faturas dispersas.</li>
+                    <li data-aos="fade-left" data-aos-delay="100"><strong>Comunicação</strong> Redação automática de e-mails com anexos.</li>
                 </ul>
                 <a href="https://docs.google.com/spreadsheets/d/14QRexGRxaobdwjcna7PxjlXfQbDA1MChl_M2WnREuW0/edit?gid=20985744#gid=20985744" target="_blank" class="btn btn-outline">Acessar Motor Base</a>
             </div>
-            <div style="width: 350px; flex-shrink: 0;" data-aos="flip-right" data-aos-delay="300">
-                <div class="highlight-box" style="position: relative;">
-                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gnh-orange); box-shadow: 0 0 15px var(--gnh-orange);"></div>
-                    <i class="fa-solid fa-envelope-open-text" style="font-size: 4rem; margin-bottom: 20px; color: var(--text-main);"></i>
-                    <h4 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">RPA Financeiro</h4>
-                    <p>Eficiência: De horas para segundos</p>
-                </div>
+            <div style="width: 350px;" data-aos="flip-right">
+                <div class="pillar-card" style="text-align: center;"><i class="fa-solid fa-envelope-open-text" style="font-size: 4rem;"></i><h4>RPA Financeiro</h4><p>Eficiência em segundos</p></div>
             </div>
         </div>
     </div>
@@ -367,109 +280,48 @@
 <section id="governanca">
     <div class="container">
         <h2 class="slide-title" data-aos="fade-up">Governança e Rastreabilidade</h2>
-        <p style="margin-bottom: 40px; font-size: 1.1rem;" data-aos="fade-up">Segurança da informação e conformidade rigorosa em cada etapa.</p>
-        
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-            <div class="pillar-card" style="display: flex; align-items: center; gap: 30px;" data-aos="fade-up" data-aos-delay="100">
-                <i class="fa-solid fa-database text-orange" style="font-size: 2.8rem; margin: 0; width: 60px; text-align: center;"></i>
-                <div>
-                    <h4 style="margin-bottom: 5px;">Registro Sistêmico Imutável</h4>
-                    <p>Histórico protegido onde 100% das interações e cobranças geradas são armazenadas.</p>
-                </div>
-            </div>
-            <div class="pillar-card" style="display: flex; align-items: center; gap: 30px;" data-aos="fade-up" data-aos-delay="200">
-                <i class="fa-solid fa-magnifying-glass-chart text-orange" style="font-size: 2.8rem; margin: 0; width: 60px; text-align: center;"></i>
-                <div>
-                    <h4 style="margin-bottom: 5px;">Trilha de Auditoria (Audit Trail)</h4>
-                    <p>Rastreabilidade granular: registro de Data, Hora, Usuário e cenário exato da ação.</p>
-                </div>
-            </div>
-            <div class="pillar-card" style="display: flex; align-items: center; gap: 30px;" data-aos="fade-up" data-aos-delay="300">
-                <i class="fa-solid fa-lock text-orange" style="font-size: 2.8rem; margin: 0; width: 60px; text-align: center;"></i>
-                <div>
-                    <h4 style="margin-bottom: 5px;">Segurança da Informação</h4>
-                    <p>Mitigação drástica de riscos operacionais como envio de dados sigilosos para contatos incorretos.</p>
-                </div>
-            </div>
+        <div class="grid-2x2">
+            <div class="pillar-card" data-aos="fade-up"><h4>Imutabilidade</h4><p>Registro sistêmico de 100% das interações.</p></div>
+            <div class="pillar-card" data-aos="fade-up" data-aos-delay="100"><h4>Audit Trail</h4><p>Rastreabilidade granular de Data, Hora e Usuário.</p></div>
         </div>
     </div>
 </section>
 
 <section id="resultados">
-    <div class="container" style="text-align: center;">
-        <h2 class="slide-title" data-aos="zoom-in">Resultados e Futuro</h2>
-        
-        <div class="grid-2x2" style="margin-top: 50px; text-align: left;">
-            <div class="highlight-box" data-aos="fade-right" data-aos-delay="100">
-                <h3 style="font-size: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 20px; margin-bottom: 25px; color: var(--text-main); font-weight: 800;">
-                    <i class="fa-solid fa-trophy text-orange" style="margin-right: 12px;"></i> Impacto Atual
-                </h3>
-                <ul class="premium-list" style="box-shadow: none; border: none; background: transparent; padding: 0;">
-                    <li style="box-shadow: none; border: none; background: transparent; padding: 0; margin-bottom: 20px;">
-                        <img src="Imagem2.png" class="asa-icon logo-adaptada" style="width: 24px;"> 
-                        <div class="list-text" style="color: var(--text-dim);">Equipe focada 100% em negociação estratégica.</div>
-                    </li>
-                    <li style="box-shadow: none; border: none; background: transparent; padding: 0;">
-                        <img src="Imagem2.png" class="asa-icon logo-adaptada" style="width: 24px;"> 
-                        <div class="list-text" style="color: var(--text-dim);">Padronização institucional da régua de cobrança.</div>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="highlight-box" style="background: linear-gradient(145deg, rgba(244,121,32,0.1) 0%, rgba(10,10,12,0.8) 100%); border-color: rgba(244, 121, 32, 0.2);" data-aos="fade-left" data-aos-delay="200">
-                <h3 style="font-size: 1.5rem; border-bottom: 1px solid var(--gnh-orange); padding-bottom: 20px; margin-bottom: 25px; color: #FFF; font-weight: 800;">
-                    <i class="fa-solid fa-rocket text-orange" style="margin-right: 12px;"></i> O Futuro
-                </h3>
-                <ul class="premium-list" style="box-shadow: none; border: none; background: transparent; padding: 0;">
-                    <li style="box-shadow: none; border: none; background: transparent; padding: 0; margin-bottom: 20px;">
-                        <img src="Imagem2.png" class="asa-icon logo-adaptada" style="width: 24px;"> 
-                        <div class="list-text" style="color: #DDD;">Inteligência Preditiva para antecipação de atrasos.</div>
-                    </li>
-                    <li style="box-shadow: none; border: none; background: transparent; padding: 0;">
-                        <img src="Imagem2.png" class="asa-icon logo-adaptada" style="width: 24px;"> 
-                        <div class="list-text" style="color: #DDD;">Cobrança 100% Autônoma para contas de baixo risco.</div>
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <h2 class="slide-title" style="text-align: center;" data-aos="zoom-in">Resultados e Futuro</h2>
+        <div class="grid-2x2" style="margin-top: 40px;">
+            <div class="pillar-card" data-aos="fade-right"><h3>Impacto Atual</h3><p>Equipe focada 100% em estratégia e padronização institucional.</p></div>
+            <div class="pillar-card" style="background: rgba(244,121,32,0.1);" data-aos="fade-left"><h3>O Futuro</h3><p>Inteligência preditiva e cobrança autônoma para baixo risco.</p></div>
         </div>
     </div>
 </section>
 
-<section id="autor" style="min-height: 80vh;">
-    <div class="container" style="text-align: center;" data-aos="fade-up">
-        <img src="logo rodapé 1.png" class="logo-adaptada" style="width: 350px; margin-bottom: 30px;" alt="GNH Logo">
-        <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">Thiago Henrique Bento</h2>
-        <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--gnh-orange); text-transform: uppercase; letter-spacing: 3px;">Financial Compliance</h3>
+<section id="autor">
+    <div class="container">
+        <div class="author-card" data-aos="zoom-up">
+            <img src="logo rodapé 1.png" class="logo-adaptada" style="width: 320px; margin-bottom: 40px;" alt="GNH Logo">
+            <h2 class="author-name">Thiago Henrique Bento</h2>
+            <h3 class="author-role">Financial Compliance</h3>
+            <div style="width: 60px; height: 3px; background: var(--gnh-orange); margin: 20px auto;"></div>
+            <p style="font-size: 0.9rem; opacity: 0.6; margin-top: 20px;">GRUPO NELSON HEUSI • TORRE DE CONTROLE FINANCEIRA</p>
+        </div>
     </div>
 </section>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({
-        duration: 800,
-        once: false,
-        mirror: true,
-        offset: 100
-    });
-
-    // Controle do Menu Ativo no Scroll
+    AOS.init({ duration: 800, once: false, mirror: true, offset: 100 });
     window.addEventListener('scroll', () => {
         let current = '';
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.nav-link');
-
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 250) {
-                current = section.getAttribute('id');
-            }
+            if (pageYOffset >= section.offsetTop - 250) current = section.getAttribute('id');
         });
-
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href').includes(current)) {
-                link.classList.add('active');
-            }
+            if (link.getAttribute('href').includes(current)) link.classList.add('active');
         });
     });
 </script>
