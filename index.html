@@ -10,13 +10,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <!-- THEME BOOT (evita flash) — lê preferência salva antes do CSS pintar -->
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('gnh-theme');
+                if (saved === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) { /* localStorage indisponível */ }
+        })();
+    </script>
+
     <style>
         :root {
             --gnh-orange: #F47920;
             --gnh-orange-soft: #FF9248;
             --gnh-orange-glow: rgba(244, 121, 32, 0.4);
+            --navy: #0F2747;
             --bg-main: #060608;
             --bg-card: rgba(15, 15, 18, 0.65);
+            --bg-alt-overlay: rgba(255,255,255,0.018);
             --text-main: #FFFFFF;
             --text-soft: #D4D4D8;
             --text-dim: #9BA3AF;
@@ -26,6 +40,23 @@
             --shadow-glow: 0 10px 40px rgba(0, 0, 0, 0.6);
             --shadow-orange: 0 0 30px rgba(244, 121, 32, 0.15);
             --green-live: #4ADE80;
+            --red-alert: #DC2626;
+        }
+
+        /* === LIGHT THEME — CREAM EDITORIAL === */
+        [data-theme="light"] {
+            --bg-main: #F8F6F1;
+            --bg-card: #FFFFFF;
+            --bg-alt-overlay: rgba(15,39,71,0.025);
+            --text-main: #0F0F0F;
+            --text-soft: #1A1A1A;
+            --text-dim: #595959;
+            --text-muted: #8A8A8A;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --border-highlight: rgba(0, 0, 0, 0.20);
+            --shadow-glow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            --shadow-orange: 0 8px 30px rgba(244, 121, 32, 0.18);
+            --green-live: #15803D;
             --red-alert: #DC2626;
         }
 
@@ -123,7 +154,8 @@
 
         /* === SECTIONS === */
         section { padding: 140px 24px 100px; position: relative; }
-        section.alt-bg { background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.018) 50%, transparent 100%); }
+        section.alt-bg { background: linear-gradient(180deg, transparent 0%, var(--bg-alt-overlay) 50%, transparent 100%); }
+        [data-theme="light"] section.alt-bg { background: #F0EBE2; }
 
         /* === EYEBROW === */
         .eyebrow {
@@ -870,6 +902,327 @@
             .quote-break .quote-mark { font-size: 5rem; }
         }
 
+        /* === HIGHLIGHT BOX — variante "História/Histórico" (callout RPA) === */
+        .highlight-history {
+            background: linear-gradient(145deg, rgba(244,121,32,0.10) 0%, rgba(10,10,12,0.85) 100%);
+            border-color: rgba(244,121,32,0.22);
+        }
+        [data-theme="light"] .highlight-history {
+            background: linear-gradient(145deg, rgba(244,121,32,0.14) 0%, #FFFFFF 65%);
+            border-color: rgba(244,121,32,0.30);
+            box-shadow: 0 8px 28px rgba(244,121,32,0.10);
+        }
+
+        /* === THEME TOGGLE BUTTON (na nav) === */
+        .theme-toggle {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-light);
+            color: var(--text-dim);
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 11px;
+            transition: all 0.3s ease;
+            margin-left: 6px;
+            flex-shrink: 0;
+            font-family: inherit;
+            padding: 0;
+        }
+        .theme-toggle:hover {
+            color: var(--gnh-orange);
+            border-color: var(--gnh-orange);
+            background: rgba(244,121,32,0.08);
+            transform: rotate(15deg);
+        }
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: inline; }
+        [data-theme="light"] .theme-toggle .icon-sun { display: inline; }
+        [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+        /* Suaviza a troca de tema */
+        body, .top-nav, .stat-card, .pillar-card, .premium-list li, .highlight-box,
+        .step-icon-wrapper, .dashboard-mockup, .dash-header, .dash-kpi, .dash-panel,
+        .dash-aging-track, .dash-ranking td, .rpa-selector-dropdown,
+        .roadmap-marker, .roadmap-card, .platform-card, .result-tile,
+        footer.site-footer, .hero-status, .nav-link, .author-avatar, .btn-outline,
+        .footer-brand-logo, .footer-brand-slogan, .hero-logo, .page-loader img {
+            transition: background-color 0.45s ease, color 0.45s ease,
+                        border-color 0.45s ease, box-shadow 0.45s ease,
+                        filter 0.45s ease;
+        }
+
+        /* ============================================
+           LIGHT THEME — overrides componente a componente
+           ============================================ */
+
+        /* Background ambiente: laranja sutil + azul navy de apoio */
+        [data-theme="light"] body::before {
+            background: radial-gradient(circle, rgba(244, 121, 32, 0.07) 0%, transparent 60%);
+        }
+        [data-theme="light"] body::after {
+            background: radial-gradient(circle, rgba(15, 39, 71, 0.04) 0%, transparent 60%);
+        }
+
+        /* Logos: removem o filtro de inversão, mostram cores naturais */
+        [data-theme="light"] .logo-adaptada,
+        [data-theme="light"] .footer-brand-logo,
+        [data-theme="light"] .hero-logo,
+        [data-theme="light"] .page-loader img {
+            filter: drop-shadow(0 6px 18px rgba(244, 121, 32, 0.15));
+        }
+        [data-theme="light"] .logo-white,
+        [data-theme="light"] .footer-brand-slogan {
+            filter: brightness(0); /* slogan em preto warm */
+        }
+
+        /* Page loader BG */
+        [data-theme="light"] .page-loader {
+            background: var(--bg-main);
+        }
+
+        /* Cursor glow: multiply em vez de screen */
+        [data-theme="light"] .cursor-glow {
+            background: radial-gradient(circle, rgba(244,121,32,0.08) 0%, rgba(244,121,32,0.03) 30%, transparent 60%);
+            mix-blend-mode: multiply;
+        }
+
+        /* NAV — pill clara com borda sutil */
+        [data-theme="light"] .top-nav {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 1px 0 rgba(255,255,255,0.5) inset;
+        }
+        [data-theme="light"] .nav-link:hover {
+            color: var(--text-main);
+            background: rgba(0, 0, 0, 0.04);
+        }
+        [data-theme="light"] .nav-link.active {
+            color: #fff !important;
+            background: var(--gnh-orange);
+            box-shadow: 0 4px 14px rgba(244, 121, 32, 0.35);
+        }
+
+        /* Theme toggle no light */
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.08);
+        }
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(244,121,32,0.1);
+        }
+
+        /* Hero status pill */
+        [data-theme="light"] .hero-status {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        [data-theme="light"] .hero-status .dot {
+            box-shadow: 0 0 8px rgba(21, 128, 61, 0.45);
+        }
+
+        /* Stat cards (hero) */
+        [data-theme="light"] .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: none;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+        }
+        [data-theme="light"] .stat-card:hover {
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Premium list (Cenário) */
+        [data-theme="light"] .premium-list li {
+            background: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+        [data-theme="light"] .premium-list li:hover {
+            background: #FFFFFF;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Pillar cards */
+        [data-theme="light"] .pillar-card {
+            background: var(--bg-card);
+            backdrop-filter: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="light"] .pillar-card:hover {
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08), 0 0 24px rgba(244, 121, 32, 0.10);
+        }
+
+        /* Highlight box */
+        [data-theme="light"] .highlight-box {
+            background: linear-gradient(145deg, #FFFFFF 0%, #FAF8F2 100%);
+            backdrop-filter: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Timeline (Arquitetura) */
+        [data-theme="light"] .step-icon-wrapper {
+            background: #FFFFFF;
+            border-color: rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            color: var(--navy);
+        }
+        [data-theme="light"] .timeline-line {
+            box-shadow: 0 0 12px rgba(244, 121, 32, 0.25);
+        }
+
+        /* Buttons */
+        [data-theme="light"] .btn-orange {
+            color: #fff !important; /* contraste melhor sobre laranja vibrante */
+            box-shadow: 0 6px 18px rgba(244, 121, 32, 0.30);
+        }
+        [data-theme="light"] .btn-orange:hover {
+            box-shadow: 0 12px 30px rgba(244, 121, 32, 0.45);
+        }
+        [data-theme="light"] .btn-outline {
+            color: var(--text-main) !important;
+            background: transparent;
+            border-color: rgba(0, 0, 0, 0.20);
+        }
+        [data-theme="light"] .btn-outline:hover {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: var(--text-main);
+        }
+
+        /* === DASHBOARD MOCKUP NO LIGHT === */
+        [data-theme="light"] .dashboard-mockup {
+            background: linear-gradient(145deg, #FFFFFF 0%, #FAFAF7 100%);
+            border-color: rgba(0, 0, 0, 0.10);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.10), 0 0 60px rgba(244, 121, 32, 0.06);
+        }
+        [data-theme="light"] .dashboard-mockup-wrap::before {
+            background: radial-gradient(ellipse at center, rgba(244, 121, 32, 0.10) 0%, transparent 70%);
+        }
+        [data-theme="light"] .dash-header {
+            background: rgba(0, 0, 0, 0.02);
+            border-bottom-color: rgba(0, 0, 0, 0.06);
+        }
+        [data-theme="light"] .dash-dots span {
+            background: rgba(0, 0, 0, 0.10);
+        }
+        [data-theme="light"] .dash-dots span:nth-child(1) { background: #ff5f57; }
+        [data-theme="light"] .dash-dots span:nth-child(2) { background: #febc2e; }
+        [data-theme="light"] .dash-dots span:nth-child(3) { background: #28c840; }
+        [data-theme="light"] .dash-status-pill {
+            background: rgba(21, 128, 61, 0.10);
+            border-color: rgba(21, 128, 61, 0.25);
+        }
+        [data-theme="light"] .dash-kpi {
+            background: #FAFAF5;
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+        [data-theme="light"] .dash-kpi:hover {
+            background: #F4F2EB;
+        }
+        [data-theme="light"] .dash-kpi-highlight {
+            background: linear-gradient(135deg, rgba(244, 121, 32, 0.14) 0%, rgba(244, 121, 32, 0.04) 100%);
+            border-color: rgba(244, 121, 32, 0.30);
+        }
+        [data-theme="light"] .dash-panel {
+            background: #FAFAF5;
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+        [data-theme="light"] .dash-aging-track {
+            background: rgba(0, 0, 0, 0.06);
+        }
+        [data-theme="light"] .dash-spark-grid {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        }
+        [data-theme="light"] .dash-ranking th {
+            border-bottom-color: rgba(0, 0, 0, 0.10);
+        }
+        [data-theme="light"] .dash-ranking td {
+            border-bottom-color: rgba(0, 0, 0, 0.04);
+        }
+        [data-theme="light"] .dash-ranking tbody tr:hover td {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        [data-theme="light"] .dash-ranking .risk-tag {
+            background: rgba(220, 38, 38, 0.10);
+            color: #B82A1A;
+        }
+        /* SVG donut: texto central preto no light */
+        [data-theme="light"] .dash-donut svg text:first-of-type { fill: #0F0F0F; }
+        [data-theme="light"] .dash-donut svg text:nth-of-type(2) { fill: #595959; }
+        [data-theme="light"] .dash-donut svg circle:first-of-type { stroke: rgba(0, 0, 0, 0.06); }
+
+        /* === RPA NO LIGHT === */
+        [data-theme="light"] .rpa-selector-dropdown {
+            background: #FAFAF5;
+            border-color: rgba(0, 0, 0, 0.10);
+        }
+        /* Os botões RPA mantêm cores vivas (navy/laranja/roxo) — funcionam em ambos */
+
+        /* === RESULTS === */
+        [data-theme="light"] .result-tile {
+            background: var(--bg-card);
+            backdrop-filter: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="light"] .result-tile:hover {
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+        }
+
+        /* === QUOTE BREAK === */
+        [data-theme="light"] .quote-break::before {
+            background: radial-gradient(circle, rgba(244, 121, 32, 0.10) 0%, transparent 60%);
+        }
+
+        /* === ROADMAP === */
+        [data-theme="light"] .roadmap-line {
+            background: linear-gradient(90deg,
+                var(--gnh-orange) 0%,
+                var(--gnh-orange) 33%,
+                rgba(244, 121, 32, 0.4) 33%,
+                rgba(244, 121, 32, 0.4) 66%,
+                rgba(0, 0, 0, 0.12) 66%);
+        }
+        [data-theme="light"] .roadmap-marker {
+            background: #FFFFFF;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+        [data-theme="light"] .roadmap-card {
+            background: var(--bg-card);
+            backdrop-filter: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="light"] .roadmap-stage[data-state="next"] .roadmap-tag {
+            background: rgba(244, 121, 32, 0.12);
+        }
+        [data-theme="light"] .roadmap-stage[data-state="future"] .roadmap-tag {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.10);
+        }
+
+        /* === PLATFORM CARDS === */
+        [data-theme="light"] .platform-card {
+            background: var(--bg-card);
+            backdrop-filter: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="light"] .platform-card:hover {
+            border-color: rgba(244, 121, 32, 0.4);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.10), 0 0 30px rgba(244, 121, 32, 0.18);
+        }
+
+        /* === FOOTER === */
+        [data-theme="light"] footer.site-footer {
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 39, 71, 0.04) 100%);
+            border-top-color: rgba(0, 0, 0, 0.08);
+        }
+        [data-theme="light"] .footer-bottom {
+            border-top-color: rgba(0, 0, 0, 0.08);
+        }
+        [data-theme="light"] .author-avatar {
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(244, 121, 32, 0.30);
+        }
+
+        /* === EYEBROW ::before stays orange === */
+
         /* === PRINT STYLES === */
         @media print {
             body { background: white !important; color: #111 !important; }
@@ -916,6 +1269,10 @@
     <a href="#resultados" class="nav-link">Resultados</a>
     <a href="#roadmap" class="nav-link">Roadmap</a>
     <a href="#plataforma" class="nav-link">Plataforma</a>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+        <i class="fa-solid fa-moon icon-moon" aria-hidden="true"></i>
+        <i class="fa-solid fa-sun icon-sun" aria-hidden="true"></i>
+    </button>
 </nav>
 
 <!-- HERO -->
@@ -1291,7 +1648,7 @@
             </div>
         </div>
 
-        <div class="highlight-box" style="margin-top: 32px; text-align: left; background: linear-gradient(145deg, rgba(244,121,32,0.08) 0%, rgba(10,10,12,0.8) 100%); border-color: rgba(244,121,32,0.2);" data-aos="fade-up" data-aos-delay="400">
+        <div class="highlight-box highlight-history" style="margin-top: 32px; text-align: left;" data-aos="fade-up" data-aos-delay="400">
             <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
                 <div class="pillar-icon" style="margin-bottom: 0; flex-shrink: 0;"><i class="fa-solid fa-clipboard-list"></i></div>
                 <div style="flex: 1; min-width: 280px;">
@@ -1528,6 +1885,33 @@
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+    // ============================================
+    // THEME TOGGLE (dark ↔ light) com persistência
+    // ============================================
+    (function() {
+        var toggle = document.getElementById('themeToggle');
+        if (!toggle) return;
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        }
+
+        // Estado inicial: o snippet do <head> já aplicou o atributo se houver preferência
+        var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        toggle.setAttribute('aria-pressed', current === 'light' ? 'true' : 'false');
+
+        toggle.addEventListener('click', function() {
+            var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            applyTheme(next);
+            try { localStorage.setItem('gnh-theme', next); } catch (e) {}
+        });
+    })();
+
     // ============================================
     // INIT
     // ============================================
