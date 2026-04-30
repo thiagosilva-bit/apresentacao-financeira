@@ -6,7 +6,7 @@
     <meta name="description" content="Dashboard Financeiro do Despacho — Grupo Nelson Heusi. Gestão de recebíveis em tempo real.">
     <title>Dashboard Financeiro · Despacho — Grupo Nelson Heusi</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -135,13 +135,19 @@
 
         /* === NAV === */
         .top-nav {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;
+            position: fixed; top: 20px; left: 50%; transform: translate(-50%, 0); z-index: 1000;
             display: flex; gap: 2px; background: rgba(10, 10, 12, 0.85); padding: 5px;
             border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             border: 1px solid var(--border-light);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             max-width: calc(100vw - 32px); overflow-x: auto;
             scrollbar-width: none; -ms-overflow-style: none;
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+        }
+        .top-nav.nav-hidden {
+            transform: translate(-50%, calc(-100% - 30px));
+            opacity: 0;
+            pointer-events: none;
         }
         .top-nav::-webkit-scrollbar { display: none; }
         .nav-link {
@@ -902,6 +908,161 @@
             .quote-break .quote-mark { font-size: 5rem; }
         }
 
+        /* ============================================
+           SECTION WATERMARK (numeração editorial gigante)
+           ============================================ */
+        section[data-section-num] {
+            position: relative;
+            overflow: hidden;
+        }
+        section[data-section-num]::after {
+            content: attr(data-section-num);
+            position: absolute;
+            top: 70px;
+            right: -10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(160px, 22vw, 300px);
+            font-weight: 100;
+            line-height: 0.78;
+            color: rgba(255, 255, 255, 0.035);
+            letter-spacing: -12px;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+        [data-theme="light"] section[data-section-num]::after {
+            color: rgba(15, 39, 71, 0.06);
+        }
+        @media (max-width: 768px) {
+            section[data-section-num]::after {
+                font-size: clamp(120px, 32vw, 200px);
+                top: 40px;
+                right: -4px;
+            }
+        }
+        section[data-section-num] > .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Ornamento decorativo no topo de cada seção numerada (exceto a primeira) */
+        section[data-section-num]:not([data-section-num="01"])::before {
+            content: '';
+            position: absolute;
+            top: 38px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            background: var(--gnh-orange);
+            border-radius: 50%;
+            box-shadow:
+                -22px 0 0 -1.5px var(--gnh-orange),
+                22px 0 0 -1.5px var(--gnh-orange);
+            opacity: 0.45;
+            z-index: 1;
+        }
+
+        /* ============================================
+           DROP CAPS (capitulares editoriais)
+           ============================================ */
+        .slide-subtitle.drop-cap::first-letter {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.45em;
+            font-weight: 400;
+            color: var(--gnh-orange);
+            margin-right: 1px;
+            padding: 0;
+            letter-spacing: 0;
+            line-height: 1;
+            /* sem float — raised cap inline (não rebaixa o texto seguinte) */
+        }
+
+        /* ============================================
+           PULL QUOTES (citação flutuante editorial)
+           ============================================ */
+        .pull-quote {
+            font-family: 'DM Serif Display', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(1.4rem, 2.6vw, 2rem);
+            line-height: 1.35;
+            color: var(--text-main);
+            text-align: center;
+            max-width: 720px;
+            margin: 80px auto 40px;
+            padding: 0 32px;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+        .pull-quote::before,
+        .pull-quote::after {
+            content: '';
+            display: block;
+            width: 56px;
+            height: 1px;
+            margin: 28px auto;
+            background: var(--gnh-orange);
+            opacity: 0.55;
+        }
+        .pull-quote::after { margin-bottom: 0; }
+
+        /* ============================================
+           SLOT-MACHINE COUNTERS (dígitos com flick)
+           ============================================ */
+        [data-counter] {
+            font-variant-numeric: tabular-nums;
+        }
+        [data-counter] .digit {
+            display: inline-block;
+            font-variant-numeric: tabular-nums;
+            transform-origin: 50% 50%;
+            will-change: transform, opacity;
+        }
+        @keyframes digitFlick {
+            0%   { transform: translateY(0);   opacity: 1; }
+            45%  { transform: translateY(-2.5px); opacity: 0.55; }
+            100% { transform: translateY(0);   opacity: 1; }
+        }
+        [data-counter] .digit.flick {
+            animation: digitFlick 95ms ease-out;
+        }
+
+        /* ============================================
+           CURSOR DOT (segue com lag, sob o glow)
+           ============================================ */
+        .cursor-dot {
+            position: fixed;
+            top: -50px; left: -50px;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--gnh-orange);
+            box-shadow: 0 0 10px rgba(244, 121, 32, 0.8), 0 0 18px rgba(244, 121, 32, 0.35);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 0.3s ease, width 0.18s ease, height 0.18s ease;
+            opacity: 0;
+        }
+        .cursor-dot.visible { opacity: 1; }
+        .cursor-dot.hover {
+            width: 14px; height: 14px;
+            background: transparent;
+            border: 1.5px solid var(--gnh-orange);
+            box-shadow: 0 0 12px rgba(244, 121, 32, 0.5);
+        }
+        @media (pointer: coarse) { .cursor-dot { display: none; } }
+
+        /* ============================================
+           MICRO-PULSE NO DASHBOARD (vida sutil)
+           ============================================ */
+        .dash-kpi-value, .dash-kpi-value-sm {
+            transition: opacity 130ms ease-out, color 130ms ease-out;
+        }
+        .dash-kpi-value.flicker, .dash-kpi-value-sm.flicker {
+            opacity: 0.42;
+        }
+
         /* === HIGHLIGHT BOX — variante "História/Histórico" (callout RPA) === */
         .highlight-history {
             background: linear-gradient(145deg, rgba(244,121,32,0.10) 0%, rgba(10,10,12,0.85) 100%);
@@ -1227,8 +1388,11 @@
         @media print {
             body { background: white !important; color: #111 !important; }
             body::before, body::after, .top-nav, .scroll-progress, .cursor-glow,
-            .page-loader, .konami-toast, .timeline-flow,
+            .cursor-dot, .page-loader, .konami-toast, .timeline-flow,
             .hero-cta, .platform-extra { display: none !important; }
+            /* Remove watermarks gigantes e ornamentos da impressão */
+            section[data-section-num]::before,
+            section[data-section-num]::after { display: none !important; }
             section { page-break-inside: avoid; padding: 30px 20px !important; min-height: auto !important; }
             .hero { min-height: auto !important; }
             .slide-title, .hero h1, h2, h3, h4 { color: #111 !important; }
@@ -1240,6 +1404,9 @@
             }
             .text-orange, .eyebrow, .text-orange { color: #F47920 !important; }
             p, span, .stat-desc, .list-text span, .roadmap-card p { color: #444 !important; }
+            .pull-quote { color: #111 !important; page-break-inside: avoid; }
+            .pull-quote::before, .pull-quote::after { background: #F47920 !important; }
+            .slide-subtitle.drop-cap::first-letter { color: #F47920 !important; }
             .logo-adaptada, .footer-brand-logo, .hero-logo { filter: none !important; }
             footer.site-footer { border-top: 1px solid #ddd !important; background: white !important; }
         }
@@ -1257,8 +1424,10 @@
 
 <!-- CURSOR GLOW -->
 <div class="cursor-glow" id="cursorGlow"></div>
+<!-- CURSOR DOT (segue com lag — efeito Apple Vision) -->
+<div class="cursor-dot" id="cursorDot"></div>
 
-<nav class="top-nav">
+<nav class="top-nav" id="topNav">
     <a href="#inicio" class="nav-link active">Início</a>
     <a href="#cenario" class="nav-link">Cenário</a>
     <a href="#proposito" class="nav-link">Propósito</a>
@@ -1313,12 +1482,12 @@
 </section>
 
 <!-- 01 — CENÁRIO -->
-<section id="cenario" class="alt-bg">
+<section id="cenario" class="alt-bg" data-section-num="01">
     <div class="container">
         <div data-aos="fade-right">
-            <div class="eyebrow">01 — Cenário Anterior</div>
+            <div class="eyebrow">Cenário Anterior</div>
             <h2 class="slide-title">Os <span class="text-orange">gargalos</span> que motivaram a transformação.</h2>
-            <p class="slide-subtitle">Antes da nova arquitetura, a operação dependia de cruzamentos manuais, com visão reativa e risco oculto sobre a carteira de recebíveis.</p>
+            <p class="slide-subtitle drop-cap">Antes da nova arquitetura, a operação dependia de cruzamentos manuais, com visão reativa e risco oculto sobre a carteira de recebíveis.</p>
         </div>
 
         <ul class="premium-list">
@@ -1343,12 +1512,12 @@
 </section>
 
 <!-- 02 — PROPÓSITO -->
-<section id="proposito">
+<section id="proposito" data-section-num="02">
     <div class="container">
         <div data-aos="fade-left">
-            <div class="eyebrow">02 — Propósito</div>
+            <div class="eyebrow">Propósito</div>
             <h2 class="slide-title">Quatro pilares para uma <span class="text-orange">gestão sem ruído</span>.</h2>
-            <p class="slide-subtitle">Consolidação de dados com integridade e controle para entregar visão em tempo real da carteira de clientes — protegendo o fluxo de caixa e automatizando a gestão de recebíveis.</p>
+            <p class="slide-subtitle drop-cap">Consolidação de dados com integridade e controle para entregar visão em tempo real da carteira de clientes — protegendo o fluxo de caixa e automatizando a gestão de recebíveis.</p>
         </div>
 
         <div class="grid-2x2">
@@ -1377,10 +1546,10 @@
 </section>
 
 <!-- 03 — ARQUITETURA -->
-<section id="arquitetura" class="alt-bg">
+<section id="arquitetura" class="alt-bg" data-section-num="03">
     <div class="container" style="text-align: center;">
         <div data-aos="zoom-in">
-            <div class="eyebrow" style="justify-content: center;">03 — Arquitetura</div>
+            <div class="eyebrow" style="justify-content: center;">Arquitetura</div>
             <h2 class="slide-title">De <span class="text-orange">dados brutos</span> à execução autônoma.</h2>
             <p class="slide-subtitle" style="margin-left: auto; margin-right: auto;">Um ecossistema integrado que opera sem fricção, das fontes sistêmicas à régua de cobrança.</p>
         </div>
@@ -1409,16 +1578,20 @@
                 <p>Execução autônoma da régua de cobrança, gerando extratos e e-mails padronizados em massa.</p>
             </div>
         </div>
+
+        <blockquote class="pull-quote" data-aos="fade-up" data-aos-delay="200">
+            Da extração à ação,<br>sem mãos humanas no caminho.
+        </blockquote>
     </div>
 </section>
 
 <!-- 04 — VISÃO EXECUTIVA -->
-<section id="visao">
+<section id="visao" data-section-num="04">
     <div class="container">
         <div data-aos="fade-up">
-            <div class="eyebrow">04 — Visão Executiva</div>
+            <div class="eyebrow">Visão Executiva</div>
             <h2 class="slide-title">Decisão baseada em dados, <span class="text-orange">em tempo real</span>.</h2>
-            <p class="slide-subtitle">Governança proativa e leitura cirúrgica da exposição — sem espera por fechamento.</p>
+            <p class="slide-subtitle drop-cap">Governança proativa e leitura cirúrgica da exposição — sem espera por fechamento.</p>
         </div>
 
         <!-- DASHBOARD MOCKUP -->
@@ -1573,16 +1746,20 @@
                 <p>Algoritmo que cruza Volume Financeiro vs. Tempo de Atraso, otimizando o foco da equipe.</p>
             </div>
         </div>
+
+        <blockquote class="pull-quote" data-aos="fade-up" data-aos-delay="200">
+            O fechamento não acontece mais<br>— ele só está sempre disponível.
+        </blockquote>
     </div>
 </section>
 
 <!-- 05 — RPA -->
-<section id="rpa" class="alt-bg">
+<section id="rpa" class="alt-bg" data-section-num="05">
     <div class="container">
         <div data-aos="fade-left">
-            <div class="eyebrow">05 — RPA Financeiro</div>
+            <div class="eyebrow">RPA Financeiro</div>
             <h2 class="slide-title">O <span class="text-orange">painel do operador</span>: três cliques, três fluxos.</h2>
-            <p class="slide-subtitle">Toda a régua de cobrança em uma única tela. Cada ação dispara um pipeline auditável: consolidação por CNPJ, classificação por overdue, extrato Excel formatado e log institucional automático.</p>
+            <p class="slide-subtitle drop-cap">Toda a régua de cobrança em uma única tela. Cada ação dispara um pipeline auditável: consolidação por CNPJ, classificação por overdue, extrato Excel formatado e log institucional automático.</p>
         </div>
 
         <!-- RPA PANEL MOCKUP -->
@@ -1661,12 +1838,12 @@
 </section>
 
 <!-- 06 — GOVERNANÇA -->
-<section id="governanca">
+<section id="governanca" data-section-num="06">
     <div class="container">
         <div data-aos="fade-up">
-            <div class="eyebrow">06 — Governança</div>
+            <div class="eyebrow">Governança</div>
             <h2 class="slide-title">Rastreabilidade <span class="text-orange">granular</span> em cada etapa.</h2>
-            <p class="slide-subtitle">Segurança da informação e conformidade rigorosa — do clique ao envio.</p>
+            <p class="slide-subtitle drop-cap">Segurança da informação e conformidade rigorosa — do clique ao envio.</p>
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -1692,16 +1869,20 @@
                 </div>
             </div>
         </div>
+
+        <blockquote class="pull-quote" data-aos="fade-up" data-aos-delay="200">
+            Cada clique deixa rastro.<br>Cada rastro vira histórico.
+        </blockquote>
     </div>
 </section>
 
 <!-- 07 — RESULTADOS -->
-<section id="resultados" class="alt-bg">
+<section id="resultados" class="alt-bg" data-section-num="07">
     <div class="container">
         <div data-aos="fade-up">
-            <div class="eyebrow">07 — Resultados</div>
+            <div class="eyebrow">Resultados</div>
             <h2 class="slide-title">O <span class="text-orange">antes e depois</span>, em números.</h2>
-            <p class="slide-subtitle">Os ganhos não são incrementais — são estruturais. A operação saiu de ciclos longos e reativos para tempo real.</p>
+            <p class="slide-subtitle drop-cap">Os ganhos não são incrementais — são estruturais. A operação saiu de ciclos longos e reativos para tempo real.</p>
         </div>
 
         <div class="results-grid">
@@ -1749,7 +1930,7 @@
 <section class="quote-break" aria-label="Citação">
     <div class="container">
         <div data-aos="fade-up">
-            <span class="quote-mark">"</span>
+            <span class="quote-mark">“</span>
             <blockquote>
                 De <span>3 dias para 0</span>.<br>
                 De reativo para <span>preditivo</span>.
@@ -1760,10 +1941,10 @@
 </section>
 
 <!-- ROADMAP -->
-<section id="roadmap">
+<section id="roadmap" data-section-num="08">
     <div class="container">
         <div data-aos="fade-up" style="text-align: center;">
-            <div class="eyebrow" style="justify-content: center;">08 — Roadmap</div>
+            <div class="eyebrow" style="justify-content: center;">Roadmap</div>
             <h2 class="slide-title">A próxima <span class="text-orange">fronteira</span>.</h2>
             <p class="slide-subtitle" style="margin-left: auto; margin-right: auto;">A operação atual já está no ar. Os próximos saltos são em camadas de inteligência sobre a base existente.</p>
         </div>
@@ -1802,10 +1983,10 @@
 </section>
 
 <!-- 09 — PLATAFORMA -->
-<section id="plataforma" class="alt-bg">
+<section id="plataforma" class="alt-bg" data-section-num="09">
     <div class="container">
         <div data-aos="fade-up" style="text-align: center;">
-            <div class="eyebrow" style="justify-content: center;">09 — Plataforma</div>
+            <div class="eyebrow" style="justify-content: center;">Plataforma</div>
             <h2 class="slide-title">Acesse a operação <span class="text-orange">em tempo real</span>.</h2>
             <p class="slide-subtitle" style="margin-left: auto; margin-right: auto;">Os dois pontos de acesso ao ecossistema: a visão executiva e o motor operacional.</p>
         </div>
@@ -1927,22 +2108,30 @@
     });
 
     // ============================================
-    // SCROLL PROGRESS + ACTIVE NAV
+    // SCROLL PROGRESS + ACTIVE NAV + PAGE INDICATOR
     // ============================================
     const progressBar = document.getElementById('scrollProgress');
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
+    const topNav = document.getElementById('topNav');
+
+    // Hide-on-scroll-down state
+    let lastScrollY = window.scrollY;
+    const SCROLL_THRESHOLD = 6; // ignora micro-movimentos
+    const NAV_HIDE_AFTER = 120; // só esconde depois de 120px do topo
 
     function onScroll() {
-        // Progress
-        const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+        const currentY = window.scrollY;
+
+        // Progress bar
+        const scrolled = (currentY / (document.body.scrollHeight - window.innerHeight)) * 100;
         progressBar.style.width = Math.min(scrolled, 100) + '%';
 
         // Active nav
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            if (window.pageYOffset >= sectionTop - 250) {
+            if (currentY >= sectionTop - 250) {
                 current = section.getAttribute('id');
             }
         });
@@ -1952,21 +2141,65 @@
                 link.classList.add('active');
             }
         });
+
+        // Hide nav on scroll-down, show on scroll-up
+        const delta = currentY - lastScrollY;
+        if (Math.abs(delta) > SCROLL_THRESHOLD) {
+            if (currentY < NAV_HIDE_AFTER) {
+                topNav.classList.remove('nav-hidden');
+            } else if (delta > 0) {
+                // descendo
+                topNav.classList.add('nav-hidden');
+            } else {
+                // subindo
+                topNav.classList.remove('nav-hidden');
+            }
+            lastScrollY = currentY;
+        }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
 
     // ============================================
-    // CURSOR GLOW (desktop only)
+    // CURSOR GLOW + DOT (desktop only)
+    // Glow segue 1:1 · Dot segue com lag (efeito Apple Vision)
     // ============================================
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const cursorDot = document.getElementById('cursorDot');
     if (!isTouch) {
         const cursor = document.getElementById('cursorGlow');
+        let mouseX = -100, mouseY = -100;
+        let dotX = -100, dotY = -100;
+
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+            cursorDot.classList.add('visible');
+        });
+        document.addEventListener('mouseleave', () => {
+            cursorDot.classList.remove('visible');
+        });
+
+        // Lag loop com lerp suave
+        function tickCursor() {
+            dotX += (mouseX - dotX) * 0.18;
+            dotY += (mouseY - dotY) * 0.18;
+            cursorDot.style.left = dotX + 'px';
+            cursorDot.style.top = dotY + 'px';
+            requestAnimationFrame(tickCursor);
+        }
+        tickCursor();
+
+        // Hover state em elementos interativos: dot vira ring
+        const hoverables = 'a, button, .nav-link, .platform-card, .pillar-card, .stat-card, .result-tile, .roadmap-card, .theme-toggle, [data-aos]';
+        document.querySelectorAll(hoverables).forEach(el => {
+            el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
         });
     } else {
         document.getElementById('cursorGlow').style.display = 'none';
+        if (cursorDot) cursorDot.style.display = 'none';
     }
 
     // ============================================
@@ -2005,7 +2238,8 @@
     setInterval(updateLiveStatus, 30000);
 
     // ============================================
-    // ANIMATED COUNTERS (Intersection Observer)
+    // ANIMATED COUNTERS — splitflap / slot-machine
+    // (cada algarismo é um span com flick animation)
     // ============================================
     // Formata número no padrão brasileiro (15.871,23)
     function formatBR(value, decimals = 0) {
@@ -2014,15 +2248,45 @@
         const intWithSep = int.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         return dec ? `${intWithSep},${dec}` : intWithSep;
     }
+    // Renderiza cada caractere em <span class="digit"> e aplica flick quando muda
+    function renderSplit(el, text) {
+        // Limpa text nodes na primeira chamada (o "0" inicial do HTML)
+        if (!el.dataset.splitInit) {
+            el.textContent = '';
+            el.dataset.splitInit = '1';
+        }
+        // Garante mesmo número de spans
+        while (el.children.length < text.length) {
+            const span = document.createElement('span');
+            span.className = 'digit';
+            el.appendChild(span);
+        }
+        while (el.children.length > text.length) {
+            el.removeChild(el.lastChild);
+        }
+        for (let i = 0; i < text.length; i++) {
+            const span = el.children[i];
+            if (span.textContent !== text[i]) {
+                span.textContent = text[i];
+                // Reinicia animação flick (só pra dígitos, não para . , %)
+                if (/\d/.test(text[i])) {
+                    span.classList.remove('flick');
+                    void span.offsetWidth; // força reflow
+                    span.classList.add('flick');
+                }
+            }
+        }
+    }
     function animateCounter(el, target, decimals = 0, duration = 5800) {
         const startTime = performance.now();
         function step(now) {
             const progress = Math.min((now - startTime) / duration, 1);
-            // ease-out quart: começa rápido, freia bem no fim — efeito mais perceptível
+            // ease-out quart: começa rápido, freia bem no fim — efeito splitflap
             const eased = 1 - Math.pow(1 - progress, 4);
             const value = target * eased;
-            el.textContent = formatBR(value, decimals);
+            renderSplit(el, formatBR(value, decimals));
             if (progress < 1) requestAnimationFrame(step);
+            else renderSplit(el, formatBR(target, decimals));
         }
         requestAnimationFrame(step);
     }
@@ -2071,6 +2335,28 @@
         });
     }, { threshold: 0.4 });
     document.querySelectorAll('.dash-aging-fill').forEach(el => fillObserver.observe(el));
+
+    // ============================================
+    // MICRO-PULSE no dashboard mockup
+    // A cada 6-12s, um KPI aleatório dá um flicker — vende "live" sem precisar de dados reais
+    // ============================================
+    function triggerMicroPulse() {
+        const kpis = document.querySelectorAll('.dash-kpi-value, .dash-kpi-value-sm');
+        if (!kpis.length) return;
+        const target = kpis[Math.floor(Math.random() * kpis.length)];
+        target.classList.add('flicker');
+        setTimeout(() => target.classList.remove('flicker'), 240);
+    }
+    function scheduleMicroPulse() {
+        const delay = 6000 + Math.random() * 6000; // 6-12s
+        setTimeout(() => {
+            // Só dispara se a aba estiver visível (poupa CPU)
+            if (!document.hidden) triggerMicroPulse();
+            scheduleMicroPulse();
+        }, delay);
+    }
+    // Começa depois que os contadores principais terminam (~7s)
+    setTimeout(scheduleMicroPulse, 7500);
 
 </script>
 
