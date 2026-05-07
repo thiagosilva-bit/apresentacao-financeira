@@ -2142,20 +2142,9 @@
             }
         });
 
-        // Hide nav on scroll-down, show on scroll-up
-        const delta = currentY - lastScrollY;
-        if (Math.abs(delta) > SCROLL_THRESHOLD) {
-            if (currentY < NAV_HIDE_AFTER) {
-                topNav.classList.remove('nav-hidden');
-            } else if (delta > 0) {
-                // descendo
-                topNav.classList.add('nav-hidden');
-            } else {
-                // subindo
-                topNav.classList.remove('nav-hidden');
-            }
-            lastScrollY = currentY;
-        }
+        // NAV sempre visível (fixa)
+        topNav.classList.remove('nav-hidden');
+        lastScrollY = currentY;
     }
     window.addEventListener('scroll', onScroll, { passive: true });
 
